@@ -931,6 +931,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     blocked: Attribute.Boolean & Attribute.DefaultTo<false>;
     confirmationToken: Attribute.String & Attribute.Private;
     confirmed: Attribute.Boolean & Attribute.DefaultTo<false>;
+    coverImage: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'plugin::users-permissions.user',
@@ -950,6 +951,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    profilePicture: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     provider: Attribute.String;
     resetPasswordToken: Attribute.String & Attribute.Private;
     role: Attribute.Relation<
