@@ -404,6 +404,48 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
+export interface ApiOrderOrder extends Schema.CollectionType {
+  collectionName: 'orders';
+  info: {
+    displayName: 'Order';
+    pluralName: 'orders';
+    singularName: 'order';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    orderId: Attribute.String & Attribute.Required;
+    products: Attribute.Relation<
+      'api::order.order',
+      'manyToMany',
+      'api::product.product'
+    >;
+    publishedAt: Attribute.DateTime;
+    status: Attribute.Enumeration<['Completed', 'Pending', 'Failed']>;
+    total: Attribute.Decimal;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    user: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiPortfolioPortfolio extends Schema.CollectionType {
   collectionName: 'portfolios';
   info: {
@@ -495,6 +537,12 @@ export interface ApiProductProduct extends Schema.CollectionType {
     gallery: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
     isFeatured: Attribute.Boolean;
     name: Attribute.String;
+    orders: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::order.order'
+    >;
+    paymentLink: Attribute.String;
     popularity: Attribute.Integer;
     price: Attribute.Decimal;
     productImage: Attribute.Media<
@@ -503,6 +551,11 @@ export interface ApiProductProduct extends Schema.CollectionType {
     >;
     publishedAt: Attribute.DateTime;
     slug: Attribute.UID<'api::product.product', 'name'>;
+    ticket: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'api::ticket.ticket'
+    >;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<
       'api::product.product',
@@ -543,6 +596,49 @@ export interface ApiSubmissionSubmission extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+  };
+}
+
+export interface ApiTicketTicket extends Schema.CollectionType {
+  collectionName: 'tickets';
+  info: {
+    displayName: 'Ticket';
+    pluralName: 'tickets';
+    singularName: 'ticket';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::ticket.ticket',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    department: Attribute.Enumeration<['Technical Support', 'Sales']>;
+    messages: Attribute.Component<'ticket-message.messages', true>;
+    publishedAt: Attribute.DateTime;
+    relatedProduct: Attribute.Relation<
+      'api::ticket.ticket',
+      'oneToOne',
+      'api::product.product'
+    >;
+    status: Attribute.Enumeration<['Open', 'In Progress', 'Closed']>;
+    title: Attribute.String;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<
+      'api::ticket.ticket',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    user: Attribute.Relation<
+      'api::ticket.ticket',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -959,6 +1055,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    ticket: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::ticket.ticket'
+    >;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<
       'plugin::users-permissions.user',
@@ -966,6 +1067,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    User: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::order.order'
+    >;
     username: Attribute.String &
       Attribute.Required &
       Attribute.Unique &
@@ -986,10 +1092,12 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::category.category': ApiCategoryCategory;
+      'api::order.order': ApiOrderOrder;
       'api::portfolio.portfolio': ApiPortfolioPortfolio;
       'api::post.post': ApiPostPost;
       'api::product.product': ApiProductProduct;
       'api::submission.submission': ApiSubmissionSubmission;
+      'api::ticket.ticket': ApiTicketTicket;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

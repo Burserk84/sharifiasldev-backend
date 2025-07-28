@@ -90,6 +90,18 @@
       ],
       "type": "media",
       "multiple": false
+    },
+    "User": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order.order",
+      "mappedBy": "user"
+    },
+    "ticket": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ticket.ticket",
+      "mappedBy": "user"
     }
   }
 }
