@@ -14,45 +14,23 @@ module.exports = createCoreController("api::ticket.ticket", ({ strapi }) => ({
     return this.transformResponse(sanitized);
   },
 
-  /**
-   * Fetch a single ticket and its messages for the logged-in user.
-   */
   async findOneMe(ctx) {
     const user = ctx.state.user;
     const { ticketId } = ctx.params;
     if (!user) return ctx.unauthorized("You must be logged in.");
-
-    try {
-      const [ticket] = await strapi.entityService.findMany(
-        "api::ticket.ticket",
-        {
-          filters: { id: ticketId, user: { id: user.id } },
-
-          populate: {
-            messages: {
-              fields: ["message", "isResponse", "createdAt"],
-              populate: {
-                author: {
-                  fields: ["id", "username"],
-                },
-              },
-            },
-          },
-        }
-      );
-
-      if (!ticket) {
-        return ctx.notFound("Ticket not found.");
-      }
-
-      const sanitized = await this.sanitizeOutput(ticket, ctx);
-      return this.transformResponse(sanitized);
-    } catch (err) {
-      console.error(`--- A CRITICAL ERROR OCCURRED IN findOneMe ---`, err);
-      ctx.internalServerError(
-        "A critical error occurred while fetching the ticket."
-      );
-    }
+    const [ticket] = await strapi.entityService.findMany("api::ticket.ticket", {
+      filters: { id: ticketId, user: { id: user.id } },
+      populate: {
+        messages: {
+          // ✨ FIX: Use the new 'sentAt' field name
+          fields: ["message", "isResponse", "sentAt"],
+          populate: { author: { fields: ["id", "username"] } },
+        },
+      },
+    });
+    if (!ticket) return ctx.notFound("Ticket not found.");
+    const sanitized = await this.sanitizeOutput(ticket, ctx);
+    return this.transformResponse(sanitized);
   },
 
   async createMe(ctx) {
@@ -70,7 +48,14 @@ module.exports = createCoreController("api::ticket.ticket", ({ strapi }) => ({
         department,
         status: "Open",
         user: user.id,
-        messages: [{ message, isResponse: false, author: user.id }], // Message is now a plain string
+        messages: [
+          {
+            message,
+            isResponse: false,
+            author: user.id,
+            sentAt: new Date(), // ✨ FIX: Manually set the timestamp
+          },
+        ],
         publishedAt: new Date(),
       },
     });
@@ -91,7 +76,12 @@ module.exports = createCoreController("api::ticket.ticket", ({ strapi }) => ({
       }
     );
     if (!ticketToUpdate) return ctx.notFound("Ticket not found.");
-    const newMessageComponent = { message, isResponse: false, author: user.id };
+    const newMessageComponent = {
+      message,
+      isResponse: false,
+      author: user.id,
+      sentAt: new Date(), // ✨ FIX: Manually set the timestamp
+    };
     const updatedTicket = await strapi.entityService.update(
       "api::ticket.ticket",
       ticketId,

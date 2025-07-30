@@ -614,6 +614,7 @@ export interface ApiTicketTicket extends Schema.CollectionType {
     > &
       Attribute.Private;
     department: Attribute.Enumeration<['Technical Support', 'Sales']>;
+    messages: Attribute.Component<'ticket-message.ticket-message', true>;
     publishedAt: Attribute.DateTime;
     relatedProduct: Attribute.Relation<
       'api::ticket.ticket',

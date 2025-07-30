@@ -3,9 +3,7 @@ import type { Attribute, Schema } from '@strapi/strapi';
 export interface TicketMessageTicketMessage extends Schema.Component {
   collectionName: 'components_ticket_message_ticket_messages';
   info: {
-    description: '';
     displayName: 'TicketMessage';
-    icon: 'message';
   };
   attributes: {
     author: Attribute.Relation<
@@ -15,6 +13,7 @@ export interface TicketMessageTicketMessage extends Schema.Component {
     >;
     isResponse: Attribute.Boolean;
     message: Attribute.Text;
+    sentAt: Attribute.DateTime;
   };
 }
 

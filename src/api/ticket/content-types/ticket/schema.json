@@ -40,6 +40,11 @@
       "relation": "oneToOne",
       "target": "api::product.product",
       "inversedBy": "ticket"
+    },
+    "messages": {
+      "type": "component",
+      "repeatable": true,
+      "component": "ticket-message.ticket-message"
     }
   }
 }
