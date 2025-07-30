@@ -97,6 +97,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::ticket.ticket"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "user"
     }
   }
 }

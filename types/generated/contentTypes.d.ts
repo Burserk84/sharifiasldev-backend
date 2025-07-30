@@ -407,6 +407,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
 export interface ApiOrderOrder extends Schema.CollectionType {
   collectionName: 'orders';
   info: {
+    description: '';
     displayName: 'Order';
     pluralName: 'orders';
     singularName: 'order';
@@ -438,6 +439,11 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    user: Attribute.Relation<
+      'api::order.order',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -529,6 +535,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.Private;
     description: Attribute.Text;
     details: Attribute.JSON;
+    downloadableFile: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     gallery: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
     isFeatured: Attribute.Boolean;
     name: Attribute.String;
@@ -1038,6 +1045,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       }>;
     firstName: Attribute.String;
     lastName: Attribute.String;
+    orders: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::order.order'
+    >;
     password: Attribute.Password &
       Attribute.Private &
       Attribute.SetMinMaxLength<{

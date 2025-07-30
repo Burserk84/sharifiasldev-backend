@@ -81,6 +81,16 @@
       "relation": "oneToOne",
       "target": "api::ticket.ticket",
       "mappedBy": "relatedProduct"
+    },
+    "downloadableFile": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }
