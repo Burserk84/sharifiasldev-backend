@@ -4,7 +4,8 @@
   "info": {
     "singularName": "ticket",
     "pluralName": "tickets",
-    "displayName": "Ticket"
+    "displayName": "Ticket",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -32,20 +33,13 @@
     "user": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "ticket"
+      "target": "plugin::users-permissions.user"
     },
     "relatedProduct": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::product.product",
       "inversedBy": "ticket"
-    },
-    "messages": {
-      "displayName": "messages",
-      "type": "component",
-      "repeatable": true,
-      "component": "ticket-message.messages"
     }
   }
 }

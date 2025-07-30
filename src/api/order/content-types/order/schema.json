@@ -15,12 +15,6 @@
       "type": "string",
       "required": true
     },
-    "user": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "User"
-    },
     "products": {
       "type": "relation",
       "relation": "manyToMany",

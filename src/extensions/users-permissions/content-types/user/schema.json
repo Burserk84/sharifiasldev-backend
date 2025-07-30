@@ -72,36 +72,31 @@
       "type": "string"
     },
     "profilePicture": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
-    "User": {
+    "tickets": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::order.order",
-      "mappedBy": "user"
-    },
-    "ticket": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::ticket.ticket",
-      "mappedBy": "user"
+      "relation": "oneToMany",
+      "target": "api::ticket.ticket"
     }
   }
 }

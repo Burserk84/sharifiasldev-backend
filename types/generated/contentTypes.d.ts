@@ -438,11 +438,6 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
-    user: Attribute.Relation<
-      'api::order.order',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -602,6 +597,7 @@ export interface ApiSubmissionSubmission extends Schema.CollectionType {
 export interface ApiTicketTicket extends Schema.CollectionType {
   collectionName: 'tickets';
   info: {
+    description: '';
     displayName: 'Ticket';
     pluralName: 'tickets';
     singularName: 'ticket';
@@ -618,7 +614,6 @@ export interface ApiTicketTicket extends Schema.CollectionType {
     > &
       Attribute.Private;
     department: Attribute.Enumeration<['Technical Support', 'Sales']>;
-    messages: Attribute.Component<'ticket-message.messages', true>;
     publishedAt: Attribute.DateTime;
     relatedProduct: Attribute.Relation<
       'api::ticket.ticket',
@@ -1055,9 +1050,9 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    ticket: Attribute.Relation<
+    tickets: Attribute.Relation<
       'plugin::users-permissions.user',
-      'oneToOne',
+      'oneToMany',
       'api::ticket.ticket'
     >;
     updatedAt: Attribute.DateTime;
@@ -1067,11 +1062,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
-    User: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToOne',
-      'api::order.order'
-    >;
     username: Attribute.String &
       Attribute.Required &
       Attribute.Unique &

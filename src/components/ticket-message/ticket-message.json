@@ -2,13 +2,11 @@
   "collectionName": "components_ticket_message_ticket_messages",
   "info": {
     "displayName": "TicketMessage",
-    "icon": "message"
+    "icon": "message",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "message": {
-      "type": "blocks"
-    },
     "isResponse": {
       "type": "boolean"
     },
@@ -16,6 +14,9 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "message": {
+      "type": "text"
     }
   }
 }
