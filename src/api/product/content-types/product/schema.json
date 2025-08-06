@@ -19,9 +19,6 @@
       "type": "uid",
       "targetField": "name"
     },
-    "description": {
-      "type": "text"
-    },
     "price": {
       "type": "decimal"
     },
@@ -83,14 +80,18 @@
       "mappedBy": "relatedProduct"
     },
     "downloadableFile": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "description": {
+      "type": "blocks"
     }
   }
 }

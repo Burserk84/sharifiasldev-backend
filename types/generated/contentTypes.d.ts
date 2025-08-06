@@ -533,7 +533,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
-    description: Attribute.Text;
+    description: Attribute.Blocks;
     details: Attribute.JSON;
     downloadableFile: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     gallery: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
