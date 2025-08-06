@@ -487,6 +487,7 @@ export interface ApiPortfolioPortfolio extends Schema.CollectionType {
 export interface ApiPostPost extends Schema.CollectionType {
   collectionName: 'posts';
   info: {
+    description: '';
     displayName: 'Post';
     pluralName: 'posts';
     singularName: 'post';
@@ -495,7 +496,7 @@ export interface ApiPostPost extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    content: Attribute.Text;
+    content: Attribute.Blocks;
     coverImage: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::post.post', 'oneToOne', 'admin::user'> &
